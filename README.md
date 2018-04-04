@@ -6,22 +6,15 @@ this project is for advanced lane find
 objp = np.zeros((8*11,3), np.float32)
 objp[:,:2] = np.mgrid[0:11, 0:8].T.reshape(-1,2)
 
-# Arrays to store object points and image points from all the images.
 objpoints = [] # 3d points in real world space
 imgpoints = [] # 2d points in image plane.
-
-# Make a list of calibration images
 images = glob.glob('camera_cal/*.jpg')
-
-# Step through the list and search for chessboard corners
 for idx, fname in enumerate(images):
     img = cv2.imread(fname)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_size = (img.shape[1], img.shape[0])
     # Find the chessboard corners
     ret, corners = cv2.findChessboardCorners(gray, (11,8), None)
-
-    # If found, add object points, image points
     if ret == True:
         objpoints.append(objp)
         imgpoints.append(corners)
