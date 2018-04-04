@@ -129,7 +129,7 @@ This part is not my algorithm, it comes from https://github.com/mvirgo/Advanced-
 
 
 
-The second ,I use my camera to detect the lane lines in real secen.
+The second ,I use my camera to detect the lane lines in real secen.The code is in camera_real.py.
 
 we need apply another perspective transform,we select the different src and dst according to real secen.
 
