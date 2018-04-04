@@ -1,18 +1,18 @@
 this project is for advanced lane find
 
 1.Calibrate the camera:
-`
-objp = np.zeros((8*11,3), np.float32)
 
-objp[:,:2] = np.mgrid[0:11, 0:8].T.reshape(-1,2)
+    objp = np.zeros((8*11,3), np.float32)
 
-objpoints = [] # 3d points in real world space
+    objp[:,:2] = np.mgrid[0:11, 0:8].T.reshape(-1,2)
 
-imgpoints = [] # 2d points in image plane.
+    objpoints = [] # 3d points in real world space
 
-images = glob.glob('camera_cal/*.jpg')
+    imgpoints = [] # 2d points in image plane.
 
-for idx, fname in enumerate(images):
+    images = glob.glob('camera_cal/*.jpg')
+
+    for idx, fname in enumerate(images):
 
     img = cv2.imread(fname)
     
@@ -31,14 +31,14 @@ for idx, fname in enumerate(images):
         #cv2.imwrite(write_name, img)
         cv2.imshow('img', img)
         cv2.waitKey(500)
-
-cv2.destroyAllWindows()
+     cv2.destroyAllWindows()
 because I use my camera in realistic scene , I use 8x11 board .
-`
+
 
 2.combine  color space and gradient thresholding to get the best of both worlds. the code as below:
-def img_threshold(img):
-    """
+
+    def img_threshold(img):
+    
 
     :param img_: Input Image
     :return: Thresholded Image
@@ -81,7 +81,7 @@ def img_threshold(img):
 3.Apply a perspective transform, choosing four source points manually,There are many other ways to select source points. For example, many perspective transform algorithms will programmatically detect four source points in an image based on edge or corner detection and analyzing attributes like color and surrounding pixels.next, we convert the four points on the original image to the transformed image .Note that the lanes in the transformed image are parallel.
 
 
-def birds_eye(img, mtx, dist):
+    def birds_eye(img, mtx, dist):
 
     binary_img = img_threshold(img)
     
@@ -136,21 +136,19 @@ we need apply another perspective transform,we select the different src and dst 
 
 Need to calibrate the camera and change the area of interest, because the camera is very bad in the first few frames, so we ignore the first few frames:
 
-`
 
-cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
 
-cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
 
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
 
-i=0
-while(cap.isOpened()):
-
-
-    ret, frame = cap.read()
-    i=i+1
-    if ret ==True:
+    i=0
+    while(cap.isOpened()):
+    
+     ret, frame = cap.read()
+     i=i+1
+     if ret ==True:
         if i>40:
             
             hit=process_video(frame)
@@ -163,8 +161,8 @@ while(cap.isOpened()):
        
     else: 
        break
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 
