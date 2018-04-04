@@ -3,10 +3,15 @@ this project is for advanced lane find
 1.Calibrate the camera:
 `
 objp = np.zeros((8*11,3), np.float32)
+
 objp[:,:2] = np.mgrid[0:11, 0:8].T.reshape(-1,2)
+
 objpoints = [] # 3d points in real world space
+
 imgpoints = [] # 2d points in image plane.
+
 images = glob.glob('camera_cal/*.jpg')
+
 for idx, fname in enumerate(images):
 
     img = cv2.imread(fname)
@@ -136,6 +141,7 @@ Need to calibrate the camera and change the area of interest, because the camera
 cap = cv2.VideoCapture(0)
 
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
+
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
 
 i=0
