@@ -1,24 +1,25 @@
 this project is for advanced lane find
 
 1.Calibrate the camera:
-# Calibrate Camera Function 
-
+`
 objp = np.zeros((8*11,3), np.float32)
 objp[:,:2] = np.mgrid[0:11, 0:8].T.reshape(-1,2)
-
 objpoints = [] # 3d points in real world space
 imgpoints = [] # 2d points in image plane.
 images = glob.glob('camera_cal/*.jpg')
 for idx, fname in enumerate(images):
+
     img = cv2.imread(fname)
+    
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_size = (img.shape[1], img.shape[0])
     # Find the chessboard corners
+    
     ret, corners = cv2.findChessboardCorners(gray, (11,8), None)
     if ret == True:
         objpoints.append(objp)
         imgpoints.append(corners)
-
+        
         # Draw and display the corners
         cv2.drawChessboardCorners(img, (11,8), corners, ret)
         #write_name = 'corners_found'+str(idx)+'.jpg'
@@ -28,7 +29,7 @@ for idx, fname in enumerate(images):
 
 cv2.destroyAllWindows()
 because I use my camera in realistic scene , I use 8x11 board .
-
+`
 
 2.combine  color space and gradient thresholding to get the best of both worlds. the code as below:
 def img_threshold(img):
@@ -73,6 +74,7 @@ def img_threshold(img):
 
 
 3.Apply a perspective transform, choosing four source points manually,There are many other ways to select source points. For example, many perspective transform algorithms will programmatically detect four source points in an image based on edge or corner detection and analyzing attributes like color and surrounding pixels.next, we convert the four points on the original image to the transformed image .Note that the lanes in the transformed image are parallel.
+
 
 def birds_eye(img, mtx, dist):
 
@@ -129,11 +131,12 @@ we need apply another perspective transform,we select the different src and dst 
 
 Need to calibrate the camera and change the area of interest, because the camera is very bad in the first few frames, so we ignore the first few frames:
 
+`
+
 cap = cv2.VideoCapture(0)
-# Set the camera
+
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,720)
-       
 
 i=0
 while(cap.isOpened()):
